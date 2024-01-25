@@ -1,0 +1,37 @@
+#!/bin/bash
+read -p "Enter the file path: " metadata_file
+
+# Check if the file exists
+if [ -e $metadata_file ]
+  then
+     file_type=$(file -b "$metadata_file")
+     case "$file_type" in
+         "JPEG image data")
+           exiftool "$metadata_file"
+          ;;
+         "PNG image data")
+           exiftool "$metadata_file"
+          ;;
+         "MP3 audio file")
+           id3info "$metadata_file"
+          ;;
+        "MPEG-4 video file")
+          mediainfo "$metadata_file"
+         ;;
+        "PDF document")
+          pdfinfo "$metadata_file"
+         ;;
+        "ASCII text")
+          echo "Filename: $metadata_file"
+          echo "File size: $(stat -c%s "$metadata_file") bytes"
+          echo "Last modified: $(stat -c%y "$metadata_file")"
+         ;;
+        *)
+       echo "Unsupported file type: $file_type"
+        ;;
+      esac
+else     
+ echo "Error: file does not exist."
+ exit 1
+fi
+

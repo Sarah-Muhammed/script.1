@@ -1,0 +1,28 @@
+#!/bin/bash
+checking_IP_assignment(){
+  echo "cheking IP assignment..."
+  ifconfig
+}
+connecting_vpn(){
+  echo "connecting using openvpn..."
+  openvpn --config ./Downloads/sarahtamer51.ovpn &
+  sleep 5
+  echo "Checking OpenVPN connection..."
+  openvpn --status
+}
+pinging_IP(){
+  local ip_to_ping=$1
+  echo "Pinging $ip_to_ping..."
+  ping -c 3 $ip_to_ping
+}
+disconnectig_warp(){
+  echo "warp disconnecting..."
+  warp-cli disconnect
+}
+checking_IP_assignment
+connecting_vpn &
+sleep 5
+pinging_IP 10.10.10.10
+disconnectig_warp
+echo "Script completed."
+

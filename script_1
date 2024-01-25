@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+read -p "Enter your file path: " my_file
+if [ -e $my_file ]
+  then
+    ls -lh < $my_file
+     
+else
+     echo " file doesn't exist"
+fi          
